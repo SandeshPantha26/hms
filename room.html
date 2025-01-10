@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Room Management</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fc;
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .room-status {
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    .available {
+      background-color: #4CAF50;
+    }
+
+    .occupied {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hospital Room Management</h1>
+
+    <!-- Room Input Form -->
+    <div class="form-container">
+      <h2>Add New Room</h2>
+      <form id="room-form">
+        <label for="room-number">Room Number:</label>
+        <input type="text" id="room-number" name="room-number" required />
+
+        <label for="room-type">Room Type:</label>
+        <select id="room-type" name="room-type" required>
+          <option value="Single">Single</option>
+          <option value="Double">Double</option>
+          <option value="ICU">ICU</option>
+        </select>
+
+        <label for="patient-name">Patient Name (if any):</label>
+        <input type="text" id="patient-name" name="patient-name" />
+
+        <label for="status">Room Status:</label>
+        <select id="status" name="status" required>
+          <option value="available">Available</option>
+          <option value="occupied">Occupied</option>
+        </select>
+
+        <button type="submit">Add Room</button>
+      </form>
+    </div>
+
+    <!-- Room Details Table -->
+    <h2>Room Details</h2>
+    <table id="room-details-table">
+      <thead>
+        <tr>
+          <th>Room Number</th>
+          <th>Room Type</th>
+          <th>Patient Name</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic room entries will be added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    document.getElementById("room-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Get the input values
+      const roomNumber = document.getElementById("room-number").value;
+      const roomType = document.getElementById("room-type").value;
+      const patientName = document.getElementById("patient-name").value;
+      const status = document.getElementById("status").value;
+
+      // Create a new table row with the room details
+      const table = document.getElementById("room-details-table").getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+
+      const cell1 = newRow.insertCell(0);
+      const cell2 = newRow.insertCell(1);
+      const cell3 = newRow.insertCell(2);
+      const cell4 = newRow.insertCell(3);
+
+      cell1.textContent = roomNumber;
+      cell2.textContent = roomType;
+      cell3.textContent = patientName || "N/A";
+      cell4.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+      // Apply status color
+      if (status === "available") {
+        cell4.classList.add("room-status", "available");
+      } else {
+        cell4.classList.add("room-status", "occupied");
+      }
+
+      // Clear the form
+      document.getElementById("room-form").reset();
+    });
+  </script>
+</body>
+</html>

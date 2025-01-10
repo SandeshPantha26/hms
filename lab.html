@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Lab Management</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7fc;
+      color: #333;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      margin-bottom: 30px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .test-status {
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    .completed {
+      background-color: #4CAF50;
+    }
+
+    .pending {
+      background-color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hospital Lab Management</h1>
+
+    <!-- Lab Input Form -->
+    <div class="form-container">
+      <h2>Add New Lab Test</h2>
+      <form id="lab-form">
+        <label for="test-name">Test Name:</label>
+        <input type="text" id="test-name" name="test-name" required />
+
+        <label for="test-type">Test Type:</label>
+        <select id="test-type" name="test-type" required>
+          <option value="Blood">Blood</option>
+          <option value="Urine">Urine</option>
+          <option value="X-Ray">X-Ray</option>
+          <option value="MRI">MRI</option>
+        </select>
+
+        <label for="patient-name">Patient Name:</label>
+        <input type="text" id="patient-name" name="patient-name" required />
+
+        <label for="test-result">Test Result:</label>
+        <textarea id="test-result" name="test-result" rows="4" required></textarea>
+
+        <label for="status">Test Status:</label>
+        <select id="status" name="status" required>
+          <option value="completed">Completed</option>
+          <option value="pending">Pending</option>
+        </select>
+
+        <button type="submit">Add Test</button>
+      </form>
+    </div>
+
+    <!-- Lab Test Details Table -->
+    <h2>Lab Test Details</h2>
+    <table id="lab-test-table">
+      <thead>
+        <tr>
+          <th>Test Name</th>
+          <th>Test Type</th>
+          <th>Patient Name</th>
+          <th>Test Result</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic lab test entries will be added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Add event listener for the form submission
+    document.getElementById("lab-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Get the input values
+      const testName = document.getElementById("test-name").value;
+      const testType = document.getElementById("test-type").value;
+      const patientName = document.getElementById("patient-name").value;
+      const testResult = document.getElementById("test-result").value;
+      const status = document.getElementById("status").value;
+
+      // Create a new table row with the lab test details
+      const table = document.getElementById("lab-test-table").getElementsByTagName('tbody')[0];
+      const newRow = table.insertRow();
+
+      const cell1 = newRow.insertCell(0);
+      const cell2 = newRow.insertCell(1);
+      const cell3 = newRow.insertCell(2);
+      const cell4 = newRow.insertCell(3);
+      const cell5 = newRow.insertCell(4);
+
+      cell1.textContent = testName;
+      cell2.textContent = testType;
+      cell3.textContent = patientName;
+      cell4.textContent = testResult;
+      cell5.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+      // Apply status color
+      if (status === "completed") {
+        cell5.classList.add("test-status", "completed");
+      } else {
+        cell5.classList.add("test-status", "pending");
+      }
+
+      // Clear the form
+      document.getElementById("lab-form").reset();
+    });
+  </script>
+</body>
+</html>
